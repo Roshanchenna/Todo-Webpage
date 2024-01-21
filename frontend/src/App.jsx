@@ -9,10 +9,10 @@ function App() {
   return <div>
       <Router>
       <Topbar />
-      <LandingPage />
-       <Routes>
-       <Route path={"/Signup"} element={<SignupPage />} />
-        <Route path={"/Login"} element={<LoginPage />} />
+     <Routes>
+       <Route path={"/"} element={<LandingPage />} />
+       <Route path={"/SignupPage"} element={<SignupPage />} />
+        <Route path={"/LoginPage"} element={<LoginPage />} />
        </Routes>
       </Router>
   </div>

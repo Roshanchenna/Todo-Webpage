@@ -2,12 +2,12 @@ import {Grid, Typography} from "@mui/material";
 import Button from "@mui/material/Button";
 
 const LandingPage = () => {
-
+    
     return <div>
         <Grid container style={{padding: "2vh"}}>
             <Grid item xs={12} md={6} lg={6}>
                 <div style={{marginTop: 100}}>
-                    <Typography variant={"h2"}>
+                    <Typography variant={"h2"} style={{fontFamily:"monospace"}}>
                     Welcome to Todo Application
                     </Typography>
                     <Typography variant={"h6"}>
