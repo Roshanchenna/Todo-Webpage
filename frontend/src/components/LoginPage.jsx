@@ -1,26 +1,10 @@
 import React, { useState } from 'react';
 import { Container, Paper, Typography, TextField, Button } from '@mui/material';
+import axios from 'axios';
 
 const LoginPage = () => {
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-  });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Add your login logic here
-    console.log('Login form submitted:', formData);
-    // You can add the logic to send the form data to your backend for authentication
-  };
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   return (
     <Container maxWidth="sm">
@@ -28,7 +12,7 @@ const LoginPage = () => {
         <Typography variant="h5" align="center" gutterBottom>
           Login
         </Typography>
-        <form onSubmit={handleSubmit}>
+        <form>
         <TextField
             label="Username"
             type="text"
@@ -36,8 +20,9 @@ const LoginPage = () => {
             fullWidth
             margin="normal"
             variant="outlined"
-            value={formData.username}
-            onChange={handleChange}
+            onChange={(e)=>{
+              setUsername(e.target.value)
+            }}
             required
           />
           <TextField
@@ -47,11 +32,18 @@ const LoginPage = () => {
             fullWidth
             margin="normal"
             variant="outlined"
-            value={formData.password}
-            onChange={handleChange}
+            onChange={(e)=>{
+              setPassword(e.target.value)
+            }}
             required
           />
-          <Button type="submit" variant="contained" color="primary" fullWidth style={{ marginTop: '20px' }}>
+          <Button variant="contained" color="primary" fullWidth style={{ marginTop: '20px' }} onClick={ async ()=>{
+            const respone = await axios.post("http://localhost:3000/login",{
+              username,
+              password
+            })
+            alert(respone.data.message);
+          }}>
             Login
           </Button>
         </form>

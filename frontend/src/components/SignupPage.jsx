@@ -1,27 +1,10 @@
 import React, { useState } from 'react';
 import { Container, Paper, Typography, TextField, Button } from '@mui/material';
+import axios from 'axios';
 
 const SignupPage = () => {
-  const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    password: '',
-  });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Add your signup logic here
-    console.log('Signup form submitted:', formData);
-    // You can add the logic to send the form data to your backend for authentication
-  };
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   return (
     <Container maxWidth="sm">
@@ -29,7 +12,7 @@ const SignupPage = () => {
         <Typography variant="h5" align="center" gutterBottom>
           Signup
         </Typography>
-        <form onSubmit={handleSubmit}>
+        <form>
           <TextField
             label="Username"
             type="text"
@@ -37,8 +20,9 @@ const SignupPage = () => {
             fullWidth
             margin="normal"
             variant="outlined"
-            value={formData.username}
-            onChange={handleChange}
+            onChange={(e)=>{
+              setUsername(e.target.value);
+            }}
             required
           />
           <TextField
@@ -48,11 +32,18 @@ const SignupPage = () => {
             fullWidth
             margin="normal"
             variant="outlined"
-            value={formData.password}
-            onChange={handleChange}
+            onChange={(e)=>{
+              setPassword(e.target.value);
+            }}
             required
           />
-          <Button type="submit" variant="contained" color="primary" fullWidth style={{ marginTop: '20px' }}>
+          <Button variant="contained" color="primary" fullWidth style={{ marginTop: '20px' }} onClick={async ()=>{
+            const response = await axios.post("http://localhost:3000/signup",{
+              username,
+              password
+            })
+            alert(response.data.message);
+          }}>
             Signup
           </Button>
         </form>
