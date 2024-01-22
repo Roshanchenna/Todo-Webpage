@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Container, Paper, Typography, TextField, Button } from '@mui/material';
 import axios from 'axios';
+import { BASE_URL } from "../config";
+
 
 const SignupPage = () => {
   const [username, setUsername] = useState("");
@@ -38,10 +40,11 @@ const SignupPage = () => {
             required
           />
           <Button variant="contained" color="primary" fullWidth style={{ marginTop: '20px' }} onClick={async ()=>{
-            const response = await axios.post("http://localhost:3000/signup",{
+            const response = await axios.post(`${BASE_URL}/signup`,{
               username,
               password
             })
+            localStorage.setItem("token",response.data.token);
             alert(response.data.message);
           }}>
             Signup

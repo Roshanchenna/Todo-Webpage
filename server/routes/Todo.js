@@ -46,20 +46,20 @@ router.get('/todos',authenticateJwt, async (req, res) => {
   }
 });
 
-//Update routes
-router.patch('/todos/:id',authenticateJwt, async (req, res) => {
+// Update routes
+router.patch('/todos/:id', authenticateJwt, async (req, res) => {
   const username = req.user.username;
   const todoId = req.params.id;
   const updates = req.body;
 
   try {
-    const user = await User.findOne({"username": username})
+    const user = await User.findOne({ username: username });
 
     if (!user) {
       return res.status(404).json({ message: 'User not found.' });
     }
 
-    const todoToUpdate = user.todos._id(todoId);
+    const todoToUpdate = user.todos.find((todo) => todo._id.toString() === todoId);
 
     if (!todoToUpdate) {
       return res.status(404).json({ message: 'Todo not found.' });
@@ -77,25 +77,27 @@ router.patch('/todos/:id',authenticateJwt, async (req, res) => {
   }
 });
 
+
 // Delete Route
-router.delete('/todos/:id',authenticateJwt, async (req, res) => {
+router.delete('/todos/:id', authenticateJwt, async (req, res) => {
   const username = req.user.username;
   const todoId = req.params.id;
 
   try {
-    const user = await User.findOne({"username": username})
+    const user = await User.findOne({ username: username });
 
     if (!user) {
       return res.status(404).json({ message: 'User not found.' });
     }
 
-    const todoToDelete = user.todos._id(todoId);
+    const todoToDeleteIndex = user.todos.findIndex((todo) => todo._id.toString() === todoId);
 
-    if (!todoToDelete) {
+    if (todoToDeleteIndex === -1) {
       return res.status(404).json({ message: 'Todo not found.' });
     }
 
-    todoToDelete.remove();
+    user.todos.splice(todoToDeleteIndex, 1);
+
     await user.save();
 
     res.status(200).json({ message: 'Todo deleted successfully!' });
@@ -104,6 +106,7 @@ router.delete('/todos/:id',authenticateJwt, async (req, res) => {
     res.status(500).json({ message: 'Error deleting Todo.' });
   }
 });
+
 
 
 
