@@ -1,3 +1,4 @@
+import './TodoWindow.css';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
@@ -37,7 +38,6 @@ const TodoWindow = () => {
       console.error('Error fetching todos:', error);
     }
   };
-  
 
   useEffect(() => {
     fetchTodos();
@@ -106,7 +106,7 @@ const TodoWindow = () => {
 
   return (
     <Container style={{ marginTop: '50px' }}>
-      <Paper elevation={3} style={{ padding: '20px', minHeight: '80vh', display: 'flex', flexDirection: 'column' }}>
+      <Paper className="todo-paper" elevation={3} style={{ padding: '20px', minHeight: '80vh', display: 'flex', flexDirection: 'column' }}>
         <TextField
           label="Todo Title"
           fullWidth
@@ -130,14 +130,15 @@ const TodoWindow = () => {
           color="primary"
           onClick={handleAddTodo}
           style={{ marginTop: '10px' }}
+          className="todo-add-button"
         >
           Add Todo
         </Button>
 
-        <List style={{ marginTop: '20px', flex: '1', overflowY: 'auto' }}>
-          {todos.map((todo) => (
+        <List className="todo-list"style={{ marginTop: '20px', flex: '1', overflowY: 'auto' }}>
+          {todos.map((todo, index) => (
             <ListItem key={todo._id}>
-              <ListItemText primary={todo.title} secondary={todo.description} />
+              <ListItemText primary={`${index + 1}. ${todo.title}`} secondary={todo.description} />
               <ListItemSecondaryAction>
                 <IconButton edge="end" aria-label="edit" onClick={() => handleEditClick(todo)}>
                   <EditIcon />

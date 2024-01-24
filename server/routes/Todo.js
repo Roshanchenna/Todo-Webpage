@@ -4,20 +4,21 @@ const { authenticateJwt }= require('../middleware/auth');
 const User = require('../models/user');
 
 
-//Create Route
-router.post('/todos',authenticateJwt, async (req, res) => {
+router.post('/todos', authenticateJwt, async (req, res) => {
   const username = req.user.username;
   const { title, description } = req.body;
 
   try {
-    const user = await User.findOne({"username": username})
+    const user = await User.findOne({ "username": username });
 
     if (!user) {
       return res.status(404).json({ message: 'User not found.' });
     }
-    if(!user.todo){
+
+    if (!user.todos) {
       user.todos = [];
     }
+
     user.todos.push({ title, description, completed: false });
     await user.save();
 
