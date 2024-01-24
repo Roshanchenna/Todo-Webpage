@@ -22,7 +22,7 @@ This is a simple Todo application built with React and Node.js. It allows users 
 1. Navigate to the `frontend` directory.
    npm install
    npm run dev
-3. Navigate to the 'server' directory.
+3. Navigate to the `server` directory.
    npm install,
    node index
 
